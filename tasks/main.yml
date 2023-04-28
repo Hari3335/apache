@@ -1,0 +1,21 @@
+---
+# tasks file for apache
+- name: install apache
+  yum:
+    name: httpd
+    state: present
+- name: start the apache
+  service:
+    name: httpd
+    state: started
+- name: copy file to the node
+  copy:
+    src: index.html
+    dest: /var/www/html/
+- name: change the port number
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify: 
+    - Restart apache
+
